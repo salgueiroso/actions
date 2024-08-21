@@ -21,11 +21,13 @@ on:
 jobs:
   project:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
-
+    env:
+      DOTNET_INSTALL_DIR: "./.dotnet"
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
           cache: true
