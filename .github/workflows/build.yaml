@@ -11,6 +11,7 @@ jobs:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
 
     steps:
+      - run: ls -lah /runner
       - uses: actions/checkout@v4
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
