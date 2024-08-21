@@ -15,7 +15,7 @@ jobs:
   unitarios:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
