@@ -7,7 +7,17 @@ on:
         branches: [master, develop]
 
 jobs:
-    test:
+    testes:
         uses: salgueiroso/actions/.github/workflows/test.yaml@master
         with:
             dotnet-version: 6.0.x
+            project-path: ${{ github.workspace }}
+
+    compilacao:
+        uses: salgueiroso/actions/.github/workflows/build.yaml@master
+        with:
+            dotnet-version: 6.0.x
+            project-path: ${{ github.workspace }}
+            artifact-name: "artefatos-${{ github.ref_name }}"
+            artifact-path: ${{ github.workspace }}/src/app/bin/Release/net6.0/*
+

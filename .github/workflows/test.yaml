@@ -1,25 +1,31 @@
 name: 1.Test .NET Core
 
 on:
-  workflow_dispatch:
   workflow_call:
     inputs:
       dotnet-version:
         required: true
         type: string
+      project-path:
+        required: true
+        type: string
+
 
 jobs:
-  test:
+  unitarios:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
-
-
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
+
       - name: Install dependencies
+        working-directory: ${{ inputs.project-path }}
         run: dotnet restore
+        
       - name: Test
+        working-directory: ${{ inputs.project-path }}
         run: dotnet test

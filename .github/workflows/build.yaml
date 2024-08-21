@@ -1,31 +1,44 @@
 name: 2.Build .NET Core
 
-# on:
-#   workflow_run:
-#     workflows: ["1.Test .NET Core"]
-#     types:
-#       - completed
-
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
+      project-path:
+        required: true
+        type: string
+      artifact-name:
+        required: false
+        type: string
+        default: release
+      artifact-path:
+        required: true
+        type: string
+
 
 jobs:
-  build:
+  project:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
 
     steps:
       - uses: actions/checkout@v2
-      # - uses: actions/cache@v1
-      #   with:
-      #     path: ~/.nuget/packages
-      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nuget-
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: ${{ inputs.dotnet-version }}
+
       - name: Install dependencies
+        working-directory: ${{ inputs.project-path }}
         run: dotnet restore
+
       - name: Build
+        working-directory: ${{ inputs.project-path }}
         run: dotnet build --configuration Release --no-restore
+
+      - name: Armazenando Artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}
