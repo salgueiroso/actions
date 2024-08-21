@@ -1,10 +1,13 @@
 name: 2.Build .NET Core
 
+# on:
+#   workflow_run:
+#     workflows: ["1.Test .NET Core"]
+#     types:
+#       - completed
+
 on:
-  workflow_run:
-    workflows: ["1.Test .NET Core"]
-    types:
-      - completed
+  workflow_dispatch:
 
 jobs:
   build:

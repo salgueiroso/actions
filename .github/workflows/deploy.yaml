@@ -1,11 +1,13 @@
 name: 3.Deploy .NET Core
 
+# on:
+#   workflow_run:
+#     workflows: ["2.Build .NET Core"]
+#     types:
+#       - completed
 on:
-  workflow_run:
-    workflows: ["2.Build .NET Core"]
-    types:
-      - completed
- 
+  workflow_dispatch:
+    
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
