@@ -1,4 +1,4 @@
-name: Test .NET Core
+name: 1.Test .NET Core
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [windows-2022]
+    runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
 
     steps:
       - uses: actions/checkout@v2

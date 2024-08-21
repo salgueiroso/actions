@@ -1,8 +1,8 @@
-name: Build .NET Core
+name: 3.Deploy .NET Core
 
 on:
   workflow_run:
-    workflows: ["Test .NET Core"]
+    workflows: ["2.Build .NET Core"]
     types:
       - completed
  
