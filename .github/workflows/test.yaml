@@ -2,6 +2,11 @@ name: 1.Test .NET Core
 
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
 
 jobs:
   test:
@@ -10,16 +15,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      # - uses: actions/cache@v1
-      #   with:
-      #     path: ~/.nuget/packages
-      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nuget-
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: ${{ inputs.dotnet-version }}
       - name: Install dependencies
         run: dotnet restore
       - name: Test
