@@ -1,0 +1,16 @@
+name: Build .NET Core
+
+on:
+  workflow_run:
+    workflows: ["Test .NET Core"]
+    types:
+      - completed
+ 
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: ls
+        run: ls -lah
