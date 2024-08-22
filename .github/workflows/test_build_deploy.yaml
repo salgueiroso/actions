@@ -34,7 +34,7 @@ jobs:
                 dotnet-version: 6.0.x
                 project-path: ${{ github.workspace }}
                 artifact-name: "artefatos-${{ github.ref_name }}"
-                artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
+                artifact-path: ${{ github.workspace }}/src/app/bin/Release/net6.0/*
 
 
     # deploy:
