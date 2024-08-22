@@ -14,10 +14,17 @@ jobs:
             project-path: ${{ github.workspace }}
 
     compilacao:
-        uses: salgueiroso/actions/.github/workflows/build.yaml@master
+        uses: salgueiroso/actions/.github/workflows/build.yaml@master 
+        needs: testes
         with:
             dotnet-version: 6.0.x
             project-path: ${{ github.workspace }}
             artifact-name: "artefatos-${{ github.ref_name }}"
             artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
+
+    deploy:
+        needs: compilacao
+        uses: salgueiroso/actions/.github/workflows/deploy.yaml@master
+
+
 

@@ -1,0 +1,64 @@
+name: "Build dotnet"
+description: "Esta ação permite a compilação de projetos desenvolvidos em dotnet core"
+author: "Acacio Salgueiro (Verity)"
+
+inputs:
+  dotnet-version:
+    description: "Define a versão do dotnet. Ex: 6.0.x"
+    required: true
+    type: string
+  project-path:
+    description: "Informa a pasta da solução (sln) ou projeto (csproj)"
+    required: true
+    type: string
+  artifact-name:
+    description: "Informa o nome do artefato a ser salvo"
+    required: false
+    type: string
+    default: release
+  artifact-path:
+    description: "Informa a pasta após build de onde os artefatos serão extraidos"
+    required: true
+    type: string
+
+outputs:
+  my-output:
+    description: "The output of the script"
+
+runs:
+  using: "composite"
+  env:
+    DOTNET_INSTALL_DIR: "./.dotnet"
+  steps:
+    - name: Validação de Requisitos
+      working-directory: ${{ inputs.project-path }}
+      run: |
+        chmod +x ${{ github.workspace }}/acts/requirements_validate.sh
+        ${{ github.workspace }}/acts/requirements_validate.sh
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+        cache: true
+        cache-dependency-path: "**/packages.lock.json"
+
+    - name: Install dependencies
+      working-directory: ${{ inputs.project-path }}
+      run: dotnet restore
+
+    - name: Build
+      working-directory: ${{ inputs.project-path }}
+      run: dotnet build --configuration Release --no-restore
+
+    - run: ls -lah ${{ inputs.artifact-path }}
+
+    - name: Armazenando Artefatos
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.artifact-path }}
+
+branding:
+  icon: "package"
+  color: "blue"
