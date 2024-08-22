@@ -31,10 +31,11 @@ runs:
     DOTNET_INSTALL_DIR: "./.dotnet"
   steps:
     - name: Validação de Requisitos
-      working-directory: ${{ inputs.project-path }}
+      working-directory: ${{ github.action_path }}
       run: |
-        chmod +x ${{ github.workspace }}/acts/requirements_validate.sh
-        ${{ github.workspace }}/acts/requirements_validate.sh
+        find .
+        chmod +x ${{ github.action_path }}/acts/requirements_validate.sh
+        ${{ github.action_path }}/acts/requirements_validate.sh
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4

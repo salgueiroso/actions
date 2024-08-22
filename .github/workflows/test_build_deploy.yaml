@@ -7,24 +7,38 @@ on:
         branches: [master, develop]
 
 jobs:
-    testes:
-        uses: salgueiroso/actions/.github/workflows/test.yaml@master
-        with:
-            dotnet-version: 6.0.x
-            project-path: ${{ github.workspace }}
+    # testes:
+    #     uses: salgueiroso/actions/.github/workflows/test.yaml@master
+    #     with:
+    #         dotnet-version: 6.0.x
+    #         project-path: ${{ github.workspace }}
+
+    # compilacao:
+    #     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
+    #     # uses: salgueiroso/actions/.github/workflows/build.yaml@master 
+    #     uses: salgueiroso/actions/acts/build.yaml@master
+    #     # needs: testes
+    #     with:
+    #         dotnet-version: 6.0.x
+    #         project-path: ${{ github.workspace }}
+    #         artifact-name: "artefatos-${{ github.ref_name }}"
+    #         artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
 
     compilacao:
-        uses: salgueiroso/actions/.github/workflows/build.yaml@master 
-        needs: testes
-        with:
-            dotnet-version: 6.0.x
-            project-path: ${{ github.workspace }}
-            artifact-name: "artefatos-${{ github.ref_name }}"
-            artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
+        runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
+        steps:
+        - uses: salgueiroso/actions/acts/build.yaml@master
+            # needs: testes
+            with:
+                dotnet-version: 6.0.x
+                project-path: ${{ github.workspace }}
+                artifact-name: "artefatos-${{ github.ref_name }}"
+                artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
 
-    deploy:
-        needs: compilacao
-        uses: salgueiroso/actions/.github/workflows/deploy.yaml@master
+
+    # deploy:
+    #     needs: compilacao
+    #     uses: salgueiroso/actions/.github/workflows/deploy.yaml@master
 
 
 
