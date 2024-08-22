@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-printenv
-
-grep -qrw --include="*.csproj" "RestorePackagesWithLockFile" "caminho/para/sua/pasta" || { echo "Nenhum arquivo contém a palavra especificada"; exit 1; }
+grep -qrw --include="*.csproj" "<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>" "${GITHUB_WORKSPACE}" || { echo "Nenhum projeto (csproj) contém a propriedade RestorePackagesWithLockFile. Veirifique a documentacao online https://devblogs.microsoft.com/nuget/enable-repeatable-package-restores-using-a-lock-file/"; exit 1; }
 
 
-echo Validado!
+echo Validacao de requisitos de projeto concluida!
