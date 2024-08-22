@@ -27,9 +27,9 @@ jobs:
     compilacao:
         runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
         steps:
-        - uses: salgueiroso/actions/acts/build.yaml@master
+            - uses: salgueiroso/actions/acts/build.yml@master
             # needs: testes
-            with:
+              with:
                 dotnet-version: 6.0.x
                 project-path: ${{ github.workspace }}
                 artifact-name: "artefatos-${{ github.ref_name }}"
