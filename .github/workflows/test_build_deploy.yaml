@@ -7,35 +7,26 @@ on:
         branches: [master, develop]
 
 jobs:
-    # testes:
-    #     uses: salgueiroso/actions/.github/workflows/test.yaml@master
-    #     with:
-    #         dotnet-version: 6.0.x
-    #         project-path: ${{ github.workspace }}
-
-    # compilacao:
-    #     runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
-    #     # uses: salgueiroso/actions/.github/workflows/build.yaml@master 
-    #     uses: salgueiroso/actions/acts/build.yaml@master
-    #     # needs: testes
-    #     with:
-    #         dotnet-version: 6.0.x
-    #         project-path: ${{ github.workspace }}
-    #         artifact-name: "artefatos-${{ github.ref_name }}"
-    #         artifact-path: ${{ github.workspace }}src/app/bin/Release/net6.0/*
+    testes:
+        runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: salgueiroso/actions/acts/test-tdd-dotnetcore@master
+              with:
+                dotnet-version: 6.0.x
+                project-path: ${{ github.workspace }}
 
     compilacao:
         runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
+        needs: testes
         steps:
-            - run: printenv
             - uses: actions/checkout@v4
             - uses: salgueiroso/actions/acts/build@master
-            # needs: testes
               with:
                 dotnet-version: 6.0.x
                 project-path: ${{ github.workspace }}
                 artifact-name: "artefatos-${{ github.ref_name }}"
-                artifact-path: ${{ github.workspace }}/src/app/bin/Release/net6.0/*
+                artifact-path: ${{ github.workspace }}/src/app/bin/Release/net6.0/win-x64/publish/*
 
 
     # deploy:

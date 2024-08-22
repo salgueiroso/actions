@@ -1,25 +1,14 @@
-name: "Build dotnet"
-description: "Esta ação permite a compilação de projetos desenvolvidos em dotnet core"
+name: "Testes TDD dotnet"
+description: "Esta ação permite a execução dos testes unitários de projetos desenvolvidos em dotnet core"
 author: "Acacio Salgueiro (Verity)"
 
 inputs:
   dotnet-version:
-    description: "Define a versão do dotnet. Ex: 6.0.x"
+    description: "Define a versão do dotnet. Ex: 6.0.x, 8.0.x"
     required: true
   project-path:
     description: "Informa a pasta da solução (sln) ou projeto (csproj)"
     required: true
-  artifact-name:
-    description: "Informa o nome do artefato a ser salvo"
-    required: false
-    default: release
-  artifact-path:
-    description: "Informa a pasta após build de onde os artefatos serão extraidos"
-    required: true
-
-# outputs:
-#   my-output:
-#     description: "The output of the script"
 
 runs:
   using: "composite"
@@ -49,22 +38,12 @@ runs:
       working-directory: ${{ inputs.project-path }}
       run: dotnet restore
 
-    - name: Build
+    - name: Test TDD
       env:
         DOTNET_INSTALL_DIR: "./.dotnet"
       shell: bash
       working-directory: ${{ inputs.project-path }}
-      run: dotnet publish  --self-contained -r win-x64 --configuration release
-
-    - name: Artefatos gerados
-      run: ls -lah ${{ inputs.artifact-path }}
-      shell: bash
-
-    - name: Armazenando Artefatos
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ inputs.artifact-name }}
-        path: ${{ inputs.artifact-path }}
+      run: dotnet test
 
 branding:
   icon: "package"
