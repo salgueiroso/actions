@@ -27,6 +27,7 @@ jobs:
     compilacao:
         runs-on: [self-hosted, Linux, X64, self-hosted-ubuntu-2204]
         steps:
+            - uses: actions/checkout@v4
             - uses: salgueiroso/actions/acts/build@master
             # needs: testes
               with:
