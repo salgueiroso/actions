@@ -32,8 +32,8 @@ runs:
       run: |
         pwd
         find .
-        chmod +x ${{ github.action_path }}/acts/requirements_validate.sh
-        ${{ github.action_path }}/acts/requirements_validate.sh
+        chmod +x ${{ github.action_path }}/../scripts/requirements_validate.sh
+        ${{ github.action_path }}/../scripts/requirements_validate.sh
 
     - name: Setup .NET Core
       env:
