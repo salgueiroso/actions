@@ -17,10 +17,6 @@ inputs:
     description: "Informa a pasta após build de onde os artefatos serão extraidos"
     required: true
 
-# outputs:
-#   my-output:
-#     description: "The output of the script"
-
 runs:
   using: "composite"
   steps:
